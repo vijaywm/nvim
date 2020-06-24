@@ -1,165 +1,232 @@
-syntax on
+let mapleader=" "
 
-set guicursor=
-set noshowmatch
-set relativenumber
-set nohlsearch
-set hidden
-set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set nu
-set nowrap
-set smartcase
-set noswapfile
-set nobackup
-set undofile
-set incsearch
-set termguicolors
-set scrolloff=8
+call plug#begin()
+" colorschemes
+Plug 'ayu-theme/ayu-vim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'haishanh/night-owl.vim'
 
-" Give more space for displaying messages.
-set cmdheight=2
+" syntax helpers
+Plug 'mxw/vim-jsx'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
 
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=50
+" linters
+Plug 'w0rp/ale'
 
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
+" code
+Plug 'fatih/vim-go'
+Plug 'pangloss/vim-javascript'
 
-set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
-
-call plug#begin('~/.vim/plugged')
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tweekmonster/gofmt.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'vim-utils/vim-man'
-Plug 'mbbill/undotree'
-Plug 'sheerun/vim-polyglot'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+ "helpers
+Plug 'jiangmiao/auto-pairs'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'mattn/emmet-vim'
+Plug 'junegunn/goyo.vim'
+Plug 'psliwka/vim-smoothie'
+Plug 'tpope/vim-surround'
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+Plug 'mhinz/vim-startify'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-commentary'
+Plug 'airblade/vim-gitgutter'
 
-"  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
-"  TOOOOOOOOOOOOO
-Plug 'gruvbox-community/gruvbox'
-Plug 'sainnhe/gruvbox-material'
-Plug 'phanviet/vim-monokai-pro'
-Plug 'vim-airline/vim-airline'
-Plug 'flazz/vim-colorschemes'
-"Plug '/home/mpaulson/personal/vim-be-good'
-Plug 'ThePrimeagen/vim-be-good'
-Plug 'jnurmine/Zenburn'
+" git
+Plug 'itchyny/vim-gitbranch'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'deoplete-plugins/deoplete-go', { 'do': 'make'}
+" do not forget to install jedi
+Plug 'deoplete-plugins/deoplete-jedi'
+" do not forget to install solargraph
+Plug 'uplus/deoplete-solargraph'
 call plug#end()
 
-let g:python3_host_prog = '/home/frappe/version12/env/bin/python'
-"let g:gruvbox_contrast_dark = 'hard'
+let g:deoplete#enable_at_startup = 1
 
-" --- The Greatest plugin of all time.  I am not bias
-let g:vim_be_good_floating = 1
+set termguicolors
+set guifont=Fira\ Code\ Retina\ 11
+let ayucolor="mirage"
+color ayu
 
-" --- vim go (polyglot) settings.
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
+set backspace=indent,eol,start
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set autoindent
+set smartindent
+set textwidth=80
+set nu
+set hlsearch
+set laststatus=2
+set updatetime=100
+set smarttab
+set incsearch
+set laststatus=2
+set ruler
+set wildmenu
+set autoread
+set nobackup
+set complete-=i
+set title
+set confirm
+set wrap
+set so=10
+set noshowmode
+set mouse+=a
+
+map <Leader>, :w<CR>
+inoremap <Leader>, <ESC>:w<CR>i
+map <C-J> <C-W><C-J>
+map <C-K> <C-W><C-K>
+map <C-L> <C-W><C-L>
+map <C-H> <C-W><C-H>
+map <Leader>[ :bprevious<CR>
+map <Leader>] :bnext<CR>
+map <Leader>l :buffers list<CR>
+inoremap <Leader>f <ESC>:FZF<CR>
+nnoremap <Leader>f :FZF<CR>
+inoremap <Leader>g <ESC>:Rg<CR>
+nnoremap <Leader>g :Rg<CR>
+map <Leader>k :NERDTreeToggle <CR>
+"let NERDTreeQuitOnOpen = 1
+inoremap jj <ESC>:w<CR>
+inoremap kk <ESC>:w<CR>
+map <F7> gg=G<C-o><C-o>
+nnoremap <C-n> :norm
+map <silent> <C-n> <Plug>(ale_previous_wrap)
+map <silent> <C-m> <Plug>(ale_next_wrap)
+map <F4> :noh<CR>
+map <C-c> :Goyo 80<CR>
+map <leader>a :cclose <bar> lclose <bar> pclose<CR>
+
+let g:lightline = {
+     \ 'colorscheme': 'ayu',
+       \ 'active': {
+       \   'left': [ [ 'mode', 'paste' ],
+       \             ['readonly', 'modified' ],
+       \             ['absolutepath']],
+       \   'right': [[ 'gitbranch'],
+       \            ['filetype'],
+       \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ]],
+       \ },
+       \ 'component_function': {
+       \   'gitbranch': 'gitbranch#name',
+       \ },
+      \ }
+let g:lightline.component_expand = {
+      \  'linter_checking': 'lightline#ale#checking',
+      \  'linter_warnings': 'lightline#ale#warnings',
+      \  'linter_errors': 'lightline#ale#errors',
+      \  'linter_ok': 'lightline#ale#ok',
+      \ }
+let g:lightline.component_type = {
+      \     'linter_checking': 'left',
+      \     'linter_warnings': 'warning',
+      \     'linter_errors': 'error',
+      \     'linter_ok': 'left',
+      \ }
+let g:user_emmet_mode='a'
+let g:user_emmet_leader_key='<Tab>'
+let g:user_emmet_settings= {
+    \ 'javascript.jsx' : {
+    \ 'extends': 'jsx',
+    \ },
+\}
+
+
+" Set this variable to 1 to fix files when you save them.
+let g:ale_fixers = {
+      \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+      \   'css': ['prettier', 'stylelint'],
+      \   'javascript': ['eslint', 'prettier'],
+      \   'python': ['isort', 'black'],
+      \   'HTML': ['HTMLHint', 'proselint'],
+      \   'go': ['gofmt'],
+      \   'ruby': ['rubocop'],
+      \}
+let g:ale_fix_on_save = 1
 let g:go_highlight_structs = 1
-let g:go_highlight_types = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_buil_constraints = 1
+let g:go_highlight_extra_types = 1
 let g:go_highlight_function_parameters = 1
 let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_hightlight_fields = 1
 let g:go_highlight_generate_tags = 1
-let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
-let g:go_auto_sameids = 1
+let g:go_highlight_variable_assignments = 1
+let g:go_fmt_command = "goimports"
 
-let g:coc_disable_startup_warning = 1
+" nerdCommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
 
-"colorscheme gruvbox
-colorscheme zenburn
-set background=dark
 
-if executable('rg')
-    let g:rg_derive_root='true'
-endif
-
-let loaded_matchparen = 1
-let mapleader = " "
-
-let g:netrw_browse_split = 2
-let g:vrfr_rg = 'true'
-let g:netrw_banner = 0
-let g:netrw_winsize = 25
-
-nnoremap <leader>h :wincmd h<CR>
-nnoremap <leader>j :wincmd j<CR>
-nnoremap <leader>k :wincmd k<CR>
-nnoremap <leader>l :wincmd l<CR>
-nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-nnoremap <Leader>ps :Rg<SPACE>
-nnoremap <C-p> :GFiles<CR>
-nnoremap <Leader>pf :Files<CR>
-nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>+ :vertical resize +5<CR>
-nnoremap <Leader>- :vertical resize -5<CR>
-nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-" Vim with me
-nnoremap <leader>vwm :colorscheme gruvbox<bar>:set background=dark<CR>
-nmap <leader>vtm :highlight Pmenu ctermbg=gray guibg=gray
-
-vnoremap X "_d
-
-nnoremap <C-space> i
-imap <C-space> <Esc>
-nnoremap <leader>i mzgg=G`z<CR>
-nnoremap <C-n> :bn<CR>
-
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+  " functions
+function SwitchColorScheme(name)
+  let g:VIM_COLOR_SCHEME = a:name
+  call ColorScheme()
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
 endfunction
 
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+function! ColorScheme()
+  if g:VIM_COLOR_SCHEME ==# 'night-owl'
+    " Lazy load theme in
+    colorscheme night-owl
+    let g:lightline.colorscheme = 'nightowl'
+  endif
 
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <C-space> coc#refresh()
 
-" GoTo code navigation.
-nmap <leader>gd <Plug>(coc-definition)
-nmap <leader>gy <Plug>(coc-type-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gr <Plug>(coc-references)
-nmap <leader>rr <Plug>(coc-rename)
-nmap <leader>g[ <Plug>(coc-diagnostic-prev)
-nmap <leader>g] <Plug>(coc-diagnostic-next)
-nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
-nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
-nnoremap <leader>cr :CocRestart
+  if g:VIM_COLOR_SCHEME ==# 'monokai'
+    " Lazy load theme in
+    colorscheme vim-monokai-tasty
+    let g:lightline.colorscheme = 'molokai'
+  endif
 
-" Sweet Sweet FuGITive
-nmap <leader>gh :diffget //3<CR>
-nmap <leader>gu :diffget //2<CR>
-nmap <leader>gs :G<CR>
+  if g:VIM_COLOR_SCHEME ==# 'nord'
+    " Lazy load theme in
+    let g:nord_underline = 1
+    let g:nord_italic_comments = 1
+    let g:nord_italic = 1
+    let g:nord_cursor_line_number_background = 1
+    colorscheme nord
+    let g:lightline.colorscheme = 'nord'
+  endif
 
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
+  if g:VIM_COLOR_SCHEME ==# 'ayu-light'
+    colorscheme ayu
+    let g:ayucolor="light"
+    set background=light
+    let g:lightline.colorscheme = 'default'
+  endif
 
-autocmd BufWritePre * :call TrimWhitespace()
+  if g:VIM_COLOR_SCHEME ==# 'ayu'
+    colorscheme ayu
+    set background=dark
+    let g:ayucolor="mirage"
+    let g:lightline.colorscheme = 'ayu'
+  endif
 
+
+endfunction
+" Defaults
+:call SwitchColorScheme("ayu")
