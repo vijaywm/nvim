@@ -1,0 +1,5 @@
+{
+
+"python.formatting.provider": "yapf",
+"python.jediPath": "/home/frappe/version12/env/lib/python3.6/site-packages"
+}
